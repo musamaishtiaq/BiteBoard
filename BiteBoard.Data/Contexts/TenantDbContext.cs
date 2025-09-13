@@ -15,14 +15,15 @@ namespace BiteBoard.Data.Contexts
     {
         private readonly IDateTimeService _dateTime;
         private readonly IAuthenticatedUserService _authenticatedUser;
+
+        public TenantDbContext(DbContextOptions<TenantDbContext> options) : base(options)
+        {
+        }
+
         public TenantDbContext(DbContextOptions<TenantDbContext> options, IDateTimeService dateTime, IAuthenticatedUserService authenticatedUser) : base(options)
         {
             _dateTime = dateTime;
             _authenticatedUser = authenticatedUser;
-        }
-
-        public TenantDbContext(DbContextOptions<TenantDbContext> options) : base(options)
-        {
         }
 
         public DbSet<Tenant> Tenants { get; set; }

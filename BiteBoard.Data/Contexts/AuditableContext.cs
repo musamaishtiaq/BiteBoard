@@ -16,7 +16,7 @@ namespace BiteBoard.Data.Contexts
     {
         public DbSet<AuditTrail> AuditTrails { get; set; }
 
-        public AuditableContext(DbContextOptions options, IMultiTenantContextAccessor tenantInfo) : base(tenantInfo, options)
+        public AuditableContext(DbContextOptions options) : base((ITenantInfo)null, options)
         {
         }
 
@@ -24,7 +24,7 @@ namespace BiteBoard.Data.Contexts
         {
         }
 
-        public AuditableContext(DbContextOptions options) : base((ITenantInfo)null, options)
+        public AuditableContext(DbContextOptions options, IMultiTenantContextAccessor tenantInfo) : base(tenantInfo, options)
         {
         }
 

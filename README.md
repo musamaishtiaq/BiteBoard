@@ -5,6 +5,7 @@ Bite Board related repositories.
 ### Starup Project: BiteBoard.Api OR BiteBoard.Data
 ### Default Project: BiteBoard.Data
 
+Add-Migration InitialTenantModel -Context TenantDbContext
 Add-Migration InitialIdentityModels -Context IdentityContext
 Add-Migration InitialModels -Context ApplicationDbContext
 
@@ -12,6 +13,7 @@ Add-Migration InitialModels -Context ApplicationDbContext
 ### Starup Project: BiteBoard.Api OR BiteBoard.Data
 ### Default Project: BiteBoard.Data
 
+Update-Database -Context TenantDbContext
 Update-Database -Context IdentityContext
 Update-Database -Context ApplicationDbContext
 
@@ -19,6 +21,7 @@ Update-Database -Context ApplicationDbContext
 ### Starup Project: BiteBoard.Api OR BiteBoard.Data
 ### Default Project: BiteBoard.Data
 
+Drop-Database -Context TenantDbContext
 Drop-Database -Context IdentityContext
 Drop-Database -Context ApplicationDbContext
 
@@ -26,5 +29,6 @@ Drop-Database -Context ApplicationDbContext
 ### Starup Project: BiteBoard.Api OR BiteBoard.Data
 ### Default Project: BiteBoard.Data
 
+Remove-Migration -Context TenantDbContext
 Remove-Migration -Context IdentityContext
 Remove-Migration -Context ApplicationDbContext

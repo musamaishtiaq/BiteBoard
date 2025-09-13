@@ -11,15 +11,14 @@ namespace BiteBoard.Data.Contexts
 {
     public class IdentityContext : MultiTenantIdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
-        public IdentityContext(DbContextOptions<IdentityContext> options, IMultiTenantContextAccessor tenantInfo) : base(tenantInfo, options)
+        public IdentityContext(DbContextOptions<IdentityContext> options) : base((ITenantInfo)null, options)
         {
         }
 
         public IdentityContext(DbContextOptions<IdentityContext> options, ITenantInfo tenantInfo) : base(tenantInfo, options)
         {
         }
-
-        public IdentityContext(DbContextOptions<IdentityContext> options) : base((ITenantInfo)null, options)
+        public IdentityContext(DbContextOptions<IdentityContext> options, IMultiTenantContextAccessor tenantInfo) : base(tenantInfo, options)
         {
         }
 

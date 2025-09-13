@@ -20,10 +20,8 @@ namespace BiteBoard.Data.Contexts
         private readonly IDateTimeService _dateTime;
         private readonly IAuthenticatedUserService _authenticatedUser;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IMultiTenantContextAccessor tenantInfo, IDateTimeService dateTime, IAuthenticatedUserService authenticatedUser) : base(options, tenantInfo)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            _dateTime = dateTime;
-            _authenticatedUser = authenticatedUser;
         }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ITenantInfo tenantInfo, IDateTimeService dateTime, IAuthenticatedUserService authenticatedUser) :
@@ -33,12 +31,23 @@ namespace BiteBoard.Data.Contexts
             _authenticatedUser = authenticatedUser;
         }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
-            base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IMultiTenantContextAccessor tenantInfo, IDateTimeService dateTime, IAuthenticatedUserService authenticatedUser) : base(options, tenantInfo)
         {
+            _dateTime = dateTime;
+            _authenticatedUser = authenticatedUser;
         }
 
-        
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<Deal> Deals { get; set; }
+        public DbSet<DealItem> DealItems { get; set; }
+        public DbSet<ModifierGroup> ModifierGroups { get; set; }
+        public DbSet<ModifierOption> ModifierOptions { get; set; }
+        public DbSet<MenuItemModifier> MenuItemModifiers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<OrderItemModifier> OrderItemModifiers { get; set; }
+        public DbSet<Table> Tables { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -63,6 +72,32 @@ namespace BiteBoard.Data.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Configure composite keys for junction tables
+            builder.Entity<MenuItemModifier>()
+                .HasKey(mm => new { mm.MenuItemId, mm.ModifierGroupId });
+
+            // Configure relationships
+            builder.Entity<MenuItem>()
+                .HasOne(m => m.Category)
+                .WithMany(c => c.MenuItems)
+                .HasForeignKey(m => m.CategoryId);
+
+            builder.Entity<Deal>()
+                .HasMany(d => d.DealItems)
+                .WithOne(di => di.Deal)
+                .HasForeignKey(di => di.DealId);
+
+            builder.Entity<DealItem>()
+                .HasOne(di => di.MenuItem)
+                .WithMany()
+                .HasForeignKey(di => di.MenuItemId);
+
+            builder.Entity<OrderItem>()
+            .HasOne(oi => oi.Deal)
+            .WithMany()
+            .HasForeignKey(oi => oi.DealId)
+            .IsRequired(false); // This makes the relationship optional
+
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             builder.ConfigureMultiTenant();

@@ -1,13 +1,49 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+	  <TargetFramework>net8.0</TargetFramework>
+	  <Nullable>disable</Nullable>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <InvariantGlobalization>false</InvariantGlobalization>
+	  <PlatformTarget>x64</PlatformTarget>
+	  <LangVersion>10</LangVersion>
+	  <Authors>Bite Board Solutions</Authors>
+	  <Company>Bite Board Solutions</Company>
+	  <Description>Bite Board API</Description>
+	  <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+	  <PackageReference Include="AutoMapper" Version="12.0.1" />
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+	  <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+	  <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+	  <PackageReference Include="FluentEmail.Core" Version="3.0.2" />
+	  <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
+	  <PackageReference Include="Hangfire" Version="1.8.20" />
+	  <PackageReference Include="Hangfire.PostgreSql" Version="1.20.12" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.19" />
+	  <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+	  <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.19" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.19" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.19" />
+	  <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.19">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BiteBoard.Data\BiteBoard.Data.csproj" />
+    <ProjectReference Include="..\BiteBoard.ResultWrapper\BiteBoard.ResultWrapper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\v1\Hangfire\" />
+    <Folder Include="DTOs\Requests\Administration\" />
+    <Folder Include="DTOs\Response\Administration\" />
   </ItemGroup>
 
 </Project>
