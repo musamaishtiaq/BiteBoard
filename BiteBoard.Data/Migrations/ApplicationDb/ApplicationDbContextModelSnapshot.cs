@@ -154,7 +154,7 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                     b.Property<Guid>("DealId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("MenuItemId")
+                    b.Property<Guid>("MenuItemId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Quantity")
@@ -174,6 +174,64 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                     b.ToTable("DealItems");
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
+                });
+
+            modelBuilder.Entity("BiteBoard.Data.Entities.DeliveryAddress", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CustomerAddress")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<string>("CustomerPhone")
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)");
+
+                    b.Property<string>("Instructions")
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.ToTable("DeliveryAddresses");
+                });
+
+            modelBuilder.Entity("BiteBoard.Data.Entities.DeliveryAssignment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("AssignedTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeliveredTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("DriverId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
+
+                    b.ToTable("DeliveryAssignments");
                 });
 
             modelBuilder.Entity("BiteBoard.Data.Entities.MenuItem", b =>
@@ -340,8 +398,14 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                         .HasColumnType("uuid");
 
                     b.Property<string>("CustomerName")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<decimal>("DeliveryFee")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("DeliveryStatus")
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("DiscountAmount")
                         .HasColumnType("decimal(18,2)");
@@ -353,8 +417,8 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                         .HasColumnType("uuid");
 
                     b.Property<string>("Notes")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp without time zone");
@@ -365,8 +429,8 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                     b.Property<int>("OrderType")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("TableNumber")
-                        .HasColumnType("integer");
+                    b.Property<Guid?>("TableId")
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("TaxAmount")
                         .HasColumnType("decimal(18,2)");
@@ -380,6 +444,8 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TableId");
 
                     b.ToTable("Orders");
 
@@ -506,11 +572,35 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
 
                     b.HasOne("BiteBoard.Data.Entities.MenuItem", "MenuItem")
                         .WithMany()
-                        .HasForeignKey("MenuItemId");
+                        .HasForeignKey("MenuItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Deal");
 
                     b.Navigation("MenuItem");
+                });
+
+            modelBuilder.Entity("BiteBoard.Data.Entities.DeliveryAddress", b =>
+                {
+                    b.HasOne("BiteBoard.Data.Entities.Order", "Order")
+                        .WithOne("DeliveryAddress")
+                        .HasForeignKey("BiteBoard.Data.Entities.DeliveryAddress", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("BiteBoard.Data.Entities.DeliveryAssignment", b =>
+                {
+                    b.HasOne("BiteBoard.Data.Entities.Order", "Order")
+                        .WithOne("DeliveryAssignment")
+                        .HasForeignKey("BiteBoard.Data.Entities.DeliveryAssignment", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("BiteBoard.Data.Entities.MenuItem", b =>
@@ -552,6 +642,15 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                         .IsRequired();
 
                     b.Navigation("ModifierGroup");
+                });
+
+            modelBuilder.Entity("BiteBoard.Data.Entities.Order", b =>
+                {
+                    b.HasOne("BiteBoard.Data.Entities.Table", "Table")
+                        .WithMany()
+                        .HasForeignKey("TableId");
+
+                    b.Navigation("Table");
                 });
 
             modelBuilder.Entity("BiteBoard.Data.Entities.OrderItem", b =>
@@ -629,6 +728,10 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
 
             modelBuilder.Entity("BiteBoard.Data.Entities.Order", b =>
                 {
+                    b.Navigation("DeliveryAddress");
+
+                    b.Navigation("DeliveryAssignment");
+
                     b.Navigation("OrderItems");
                 });
 

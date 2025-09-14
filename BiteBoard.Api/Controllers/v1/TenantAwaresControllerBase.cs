@@ -10,11 +10,11 @@ using static BiteBoard.Data.Constants.Permissions;
 namespace BiteBoard.API.Controllers.v1
 {
     [ApiController]
-    public abstract class TenantAwareControllerBase : ControllerBase
+    public abstract class TenantAwaresControllerBase : ControllerBase
     {
         protected readonly TenantDbContext _tenantContext;
 
-        protected TenantAwareControllerBase(TenantDbContext tenantContext)
+        protected TenantAwaresControllerBase(TenantDbContext tenantContext)
         {
             _tenantContext = tenantContext;
         }

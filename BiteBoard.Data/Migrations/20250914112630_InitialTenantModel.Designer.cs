@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BiteBoard.Data.Migrations
 {
     [DbContext(typeof(TenantDbContext))]
-    [Migration("20250913150950_InitialTenantModel")]
+    [Migration("20250914112630_InitialTenantModel")]
     partial class InitialTenantModel
     {
         /// <inheritdoc />

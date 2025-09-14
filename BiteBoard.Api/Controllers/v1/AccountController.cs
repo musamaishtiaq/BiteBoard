@@ -22,7 +22,7 @@ namespace BiteBoard.API.Controllers.v1;
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
-public class AccountController : TenantAwareControllerBase
+public class AccountsController : TenantAwaresControllerBase
 {
 	private readonly UserManager<ApplicationUser> _userManager;
 	private readonly RoleManager<ApplicationRole> _roleManager;
@@ -33,7 +33,7 @@ public class AccountController : TenantAwareControllerBase
 	private readonly IMailService _mailService;
 	private string _apiVersion = "1.0";
 
-	public AccountController(UserManager<ApplicationUser> userManager,
+	public AccountsController(UserManager<ApplicationUser> userManager,
 		RoleManager<ApplicationRole> roleManager,
 		SignInManager<ApplicationUser> signInManager,
         ApplicationDbContext context,

@@ -30,7 +30,7 @@ namespace BiteBoard.Data.Entities
         // Navigation Properties
         public virtual Order Order { get; set; }
         public virtual MenuItem MenuItem { get; set; }
-        public virtual Deal? Deal { get; set; } // Nullable for regular items
+        public virtual Deal Deal { get; set; } // Nullable for regular items
         public virtual ICollection<OrderItemModifier> OrderItemModifiers { get; set; }
     }
 }

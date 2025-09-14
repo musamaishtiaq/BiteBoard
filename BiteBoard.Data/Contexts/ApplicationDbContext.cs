@@ -48,6 +48,8 @@ namespace BiteBoard.Data.Contexts
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<OrderItemModifier> OrderItemModifiers { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
+        public DbSet<DeliveryAssignment> DeliveryAssignments { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -96,7 +98,17 @@ namespace BiteBoard.Data.Contexts
             .HasOne(oi => oi.Deal)
             .WithMany()
             .HasForeignKey(oi => oi.DealId)
-            .IsRequired(false); // This makes the relationship optional
+            .IsRequired(false);
+
+            builder.Entity<DeliveryAddress>()
+            .HasOne(da => da.Order)
+            .WithOne(o => o.DeliveryAddress)
+            .HasForeignKey<DeliveryAddress>(da => da.OrderId);
+
+            builder.Entity<DeliveryAssignment>()
+            .HasOne(da => da.Order)
+            .WithOne(o => o.DeliveryAssignment)
+            .HasForeignKey<DeliveryAssignment>(da => da.OrderId);
 
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

@@ -85,31 +85,6 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrderType = table.Column<int>(type: "integer", nullable: false),
-                    OrderStatus = table.Column<int>(type: "integer", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    TotalAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    TaxAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    DiscountAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    TableNumber = table.Column<int>(type: "integer", nullable: true),
-                    CustomerName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    Notes = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    TenantId = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    LastModifiedBy = table.Column<Guid>(type: "uuid", nullable: true),
-                    LastModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Tables",
                 columns: table => new
                 {
@@ -182,12 +157,44 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrderType = table.Column<int>(type: "integer", nullable: false),
+                    OrderStatus = table.Column<int>(type: "integer", nullable: false),
+                    DeliveryStatus = table.Column<int>(type: "integer", nullable: true),
+                    OrderDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    TaxAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    DiscountAmount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    DeliveryFee = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    TableId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CustomerName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Notes = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true),
+                    TenantId = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    LastModifiedBy = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastModifiedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Tables_TableId",
+                        column: x => x.TableId,
+                        principalTable: "Tables",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DealItems",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     DealId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MenuItemId = table.Column<Guid>(type: "uuid", nullable: true),
+                    MenuItemId = table.Column<Guid>(type: "uuid", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     TenantId = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false)
                 },
@@ -204,7 +211,8 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                         name: "FK_DealItems_MenuItems_MenuItemId",
                         column: x => x.MenuItemId,
                         principalTable: "MenuItems",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,6 +236,49 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                         name: "FK_MenuItemModifiers_ModifierGroups_ModifierGroupId",
                         column: x => x.ModifierGroupId,
                         principalTable: "ModifierGroups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DeliveryAddresses",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CustomerPhone = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
+                    CustomerAddress = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    Instructions = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DeliveryAddresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DeliveryAddresses_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DeliveryAssignments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DriverId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    AssignedTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DeliveredTime = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DeliveryAssignments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DeliveryAssignments_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -304,6 +355,18 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                 column: "MenuItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DeliveryAddresses_OrderId",
+                table: "DeliveryAddresses",
+                column: "OrderId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeliveryAssignments_OrderId",
+                table: "DeliveryAssignments",
+                column: "OrderId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MenuItemModifiers_ModifierGroupId",
                 table: "MenuItemModifiers",
                 column: "ModifierGroupId");
@@ -342,6 +405,11 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                 name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_TableId",
+                table: "Orders",
+                column: "TableId");
         }
 
         /// <inheritdoc />
@@ -354,13 +422,16 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
                 name: "DealItems");
 
             migrationBuilder.DropTable(
+                name: "DeliveryAddresses");
+
+            migrationBuilder.DropTable(
+                name: "DeliveryAssignments");
+
+            migrationBuilder.DropTable(
                 name: "MenuItemModifiers");
 
             migrationBuilder.DropTable(
                 name: "OrderItemModifiers");
-
-            migrationBuilder.DropTable(
-                name: "Tables");
 
             migrationBuilder.DropTable(
                 name: "ModifierOptions");
@@ -382,6 +453,9 @@ namespace BiteBoard.Data.Migrations.ApplicationDb
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Tables");
         }
     }
 }

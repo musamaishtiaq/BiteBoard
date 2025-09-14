@@ -23,8 +23,8 @@ public static class Permissions
             modulePermissions.Add($"Permissions.{module}.Permissions");
         else if (module == "Tenants")
             modulePermissions.Add($"Permissions.{module}.Enable");
-        else if (module == "Batches")
-            modulePermissions.Add($"Permissions.{module}.BatchRecall");
+        else if (module == "ModifierGroups" || module == "MenuItems" || module == "Deals" || module == "Tables" || module == "Orders")
+            modulePermissions.Add($"Permissions.{module}.Manage");
         return modulePermissions;
     }
 
@@ -51,79 +51,6 @@ public static class Permissions
         public const string Permissions = "Permissions.Roles.Permissions";
     }
 
-    public static class Companies
-    {
-        public const string View = "Permissions.Companies.View";
-        public const string Create = "Permissions.Companies.Create";
-        public const string Edit = "Permissions.Companies.Edit";
-        public const string Delete = "Permissions.Companies.Delete";
-    }
-
-    public static class Products
-    {
-        public const string View = "Permissions.Products.View";
-        public const string Create = "Permissions.Products.Create";
-        public const string Edit = "Permissions.Products.Edit";
-        public const string Delete = "Permissions.Products.Delete";
-    }
-
-    public static class Batches
-    {
-        public const string View = "Permissions.Batches.View";
-        public const string Create = "Permissions.Batches.Create";
-        public const string Edit = "Permissions.Batches.Edit";
-        public const string Delete = "Permissions.Batches.Delete";
-        public const string BatchRecall = "Permissions.Batches.BatchRecall";
-    }
-
-    public static class Suppliers
-    {
-        public const string View = "Permissions.Suppliers.View";
-        public const string Create = "Permissions.Suppliers.Create";
-        public const string Edit = "Permissions.Suppliers.Edit";
-        public const string Delete = "Permissions.Suppliers.Delete";
-    }
-
-    public static class MaterialCompositions
-    {
-        public const string View = "Permissions.MaterialCompositions.View";
-        public const string Create = "Permissions.MaterialCompositions.Create";
-        public const string Edit = "Permissions.MaterialCompositions.Edit";
-        public const string Delete = "Permissions.MaterialCompositions.Delete";
-    }
-
-    public static class DigitalProductPassports
-    {
-        public const string View = "Permissions.DigitalProductPassports.View";
-        public const string Create = "Permissions.DigitalProductPassports.Create";
-        public const string Edit = "Permissions.DigitalProductPassports.Edit";
-        public const string Delete = "Permissions.DigitalProductPassports.Delete";
-    }
-
-    public static class Widgets
-    {
-        public const string View = "Permissions.Widgets.View";
-        public const string Create = "Permissions.Widgets.Create";
-        public const string Edit = "Permissions.Widgets.Edit";
-        public const string Delete = "Permissions.Widgets.Delete";
-    }
-
-    public static class Pages
-    {
-        public const string View = "Permissions.Pages.View";
-        public const string Create = "Permissions.Pages.Create";
-        public const string Edit = "Permissions.Pages.Edit";
-        public const string Delete = "Permissions.Pages.Delete";
-    }
-
-    public static class Templates
-    {
-        public const string View = "Permissions.Templates.View";
-        public const string Create = "Permissions.Templates.Create";
-        public const string Edit = "Permissions.Templates.Edit";
-        public const string Delete = "Permissions.Templates.Delete";
-    }
-
     public static class Tenants
     {
         public const string View = "Permissions.Tenants.View";
@@ -131,5 +58,58 @@ public static class Permissions
         public const string Edit = "Permissions.Tenants.Edit";
         public const string Delete = "Permissions.Tenants.Delete";
         public const string Enable = "Permissions.Tenants.Enable";
+    }
+
+    public static class Categories
+    {
+        public const string View = "Permissions.Categories.View";
+        public const string Create = "Permissions.Categories.Create";
+        public const string Edit = "Permissions.Categories.Edit";
+        public const string Delete = "Permissions.Categories.Delete";
+    }
+
+    public static class ModifierGroups
+    {
+        public const string View = "Permissions.ModifierGroups.View";
+        public const string Create = "Permissions.ModifierGroups.Create";
+        public const string Edit = "Permissions.ModifierGroups.Edit";
+        public const string Delete = "Permissions.ModifierGroups.Delete";
+        public const string Manage = "Permissions.ModifierGroups.Manage";
+    }
+
+    public static class MenuItems
+    {
+        public const string View = "Permissions.MenuItems.View";
+        public const string Create = "Permissions.MenuItems.Create";
+        public const string Edit = "Permissions.MenuItems.Edit";
+        public const string Delete = "Permissions.MenuItems.Delete";
+        public const string Manage = "Permissions.MenuItems.Manage";
+    }
+
+    public static class Deals
+    {
+        public const string View = "Permissions.Deals.View";
+        public const string Create = "Permissions.Deals.Create";
+        public const string Edit = "Permissions.Deals.Edit";
+        public const string Delete = "Permissions.Deals.Delete";
+        public const string Manage = "Permissions.Deals.Manage";
+    }
+
+    public static class Tables
+    {
+        public const string View = "Permissions.Tables.View";
+        public const string Create = "Permissions.Tables.Create";
+        public const string Edit = "Permissions.Tables.Edit";
+        public const string Delete = "Permissions.Tables.Delete";
+        public const string Manage = "Permissions.Tables.Manage";
+    }
+
+    public static class Orders
+    {
+        public const string View = "Permissions.Orders.View";
+        public const string Create = "Permissions.Orders.Create";
+        public const string Edit = "Permissions.Orders.Edit";
+        public const string Delete = "Permissions.Orders.Delete";
+        public const string Manage = "Permissions.Orders.Manage";
     }
 }

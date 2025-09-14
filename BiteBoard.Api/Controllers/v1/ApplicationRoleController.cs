@@ -20,7 +20,7 @@ namespace BiteBoard.API.Controllers.v1
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    public class ApplicationRoleController : TenantAwareControllerBase
+    public class ApplicationRolesController : TenantAwaresControllerBase
     {
         private readonly IdentityContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -29,7 +29,7 @@ namespace BiteBoard.API.Controllers.v1
         protected readonly TenantDbContext _tenantContext;
         private readonly IMapper _mapper;
 
-        public ApplicationRoleController(IdentityContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, TenantDbContext tenantContext, IMapper mapper) : base (tenantContext)
+        public ApplicationRolesController(IdentityContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, TenantDbContext tenantContext, IMapper mapper) : base (tenantContext)
         {
             _context = context;
             _userManager = userManager;

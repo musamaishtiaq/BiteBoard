@@ -17,13 +17,13 @@ namespace BiteBoard.API.Controllers.v1
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    public class TenantController : TenantAwareControllerBase
+    public class TenantsController : TenantAwaresControllerBase
     {
         private readonly ITenantService _tenantService;
         protected readonly TenantDbContext _tenantContext;
         private readonly IMapper _mapper;
 
-        public TenantController(ITenantService tenantService, TenantDbContext tenantContext, IMapper mapper) : base (tenantContext)
+        public TenantsController(ITenantService tenantService, TenantDbContext tenantContext, IMapper mapper) : base (tenantContext)
         {
             _tenantService = tenantService;
             _tenantContext = tenantContext;

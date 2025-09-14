@@ -15,7 +15,7 @@ namespace BiteBoard.Data.Entities
     {
         public Guid DealId { get; set; }
 
-        public Guid? MenuItemId { get; set; } // Nullable for category-based deals
+        public Guid MenuItemId { get; set; }
 
         public int Quantity { get; set; } = 1;
 

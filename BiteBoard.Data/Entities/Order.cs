@@ -19,6 +19,8 @@ namespace BiteBoard.Data.Entities
 
         public OrderStatus OrderStatus { get; set; }
 
+        public DeliveryStatus? DeliveryStatus { get; set; }
+
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
         [Column(TypeName = "decimal(18,2)")]
@@ -30,15 +32,21 @@ namespace BiteBoard.Data.Entities
         [Column(TypeName = "decimal(18,2)")]
         public decimal DiscountAmount { get; set; }
 
-        public int? TableNumber { get; set; } // Nullable for takeaway orders
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal DeliveryFee { get; set; }
 
-        [MaxLength(100)]
+        public Guid? TableId { get; set; }
+
+        [MaxLength(50)]
         public string CustomerName { get; set; }
 
-        [MaxLength(500)]
+        [MaxLength(250)]
         public string Notes { get; set; }
 
         // Navigation Properties
         public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual Table Table { get; set; }
+        public virtual DeliveryAddress DeliveryAddress { get; set; }
+        public virtual DeliveryAssignment DeliveryAssignment { get; set; }
     }
 }

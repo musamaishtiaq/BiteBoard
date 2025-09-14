@@ -43,17 +43,12 @@ public static class DefaultSuperAdminUser
         await roleManager.AddPermissionClaim(superAdminRole, "Dashboard");
         await roleManager.AddPermissionClaim(superAdminRole, "Users");
         await roleManager.AddPermissionClaim(superAdminRole, "Roles");
-
-        await AddSpecificPermissionClaim(roleManager, superAdminRole, "Companies", new List<string> { "View", "Edit" });
-
-        await roleManager.AddPermissionClaim(superAdminRole, "Products");
-        await roleManager.AddPermissionClaim(superAdminRole, "Batches");
-        await roleManager.AddPermissionClaim(superAdminRole, "Suppliers");
-        await roleManager.AddPermissionClaim(superAdminRole, "MaterialCompositions");
-        await roleManager.AddPermissionClaim(superAdminRole, "DigitalProductPassports");
-        await roleManager.AddPermissionClaim(superAdminRole, "Widgets");
-        await roleManager.AddPermissionClaim(superAdminRole, "Pages");
-        await roleManager.AddPermissionClaim(superAdminRole, "Templates");
+        await roleManager.AddPermissionClaim(superAdminRole, "Categories");
+        await roleManager.AddPermissionClaim(superAdminRole, "ModifierGroups");
+        await roleManager.AddPermissionClaim(superAdminRole, "MenuItems");
+        await roleManager.AddPermissionClaim(superAdminRole, "Deals");
+        await roleManager.AddPermissionClaim(superAdminRole, "Tables");
+        await roleManager.AddPermissionClaim(superAdminRole, "Orders");
 
         // Only add Tenants permission for the default tenant
         if (tenantInfo.Id == "c82c98ae-21c2-4f0d-d119-8d6e4d9f32a1" && tenantInfo.Identifier == "default")

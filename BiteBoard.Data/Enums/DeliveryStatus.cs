@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace BiteBoard.Data.Enums
 {
-    public enum OrderType
+    public enum DeliveryStatus
     {
-        Takeaway,
-        DineIn,
-        Delivery
+        Pending,
+        Assigned,
+        OutForDelivery,
+        Delivered,
+        Failed
     }
 }

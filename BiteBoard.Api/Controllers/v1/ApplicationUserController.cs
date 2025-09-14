@@ -20,14 +20,14 @@ namespace BiteBoard.API.Controllers.v1
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
-    public class ApplicationUserController : TenantAwareControllerBase
+    public class ApplicationUsersController : TenantAwaresControllerBase
     {
         private readonly IdentityContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         protected readonly TenantDbContext _tenantContext;
         private readonly IMapper _mapper;
 
-        public ApplicationUserController(IdentityContext context, UserManager<ApplicationUser> userManager, TenantDbContext tenantContext, IMapper mapper) : base (tenantContext)
+        public ApplicationUsersController(IdentityContext context, UserManager<ApplicationUser> userManager, TenantDbContext tenantContext, IMapper mapper) : base (tenantContext)
         {
             _context = context;
             _userManager = userManager;

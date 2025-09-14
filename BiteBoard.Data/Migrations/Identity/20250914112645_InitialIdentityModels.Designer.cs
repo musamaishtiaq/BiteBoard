@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BiteBoard.Data.Migrations.Identity
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20250913151632_InitialIdentityModels")]
+    [Migration("20250914112645_InitialIdentityModels")]
     partial class InitialIdentityModels
     {
         /// <inheritdoc />
